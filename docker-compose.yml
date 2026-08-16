@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: rbr-db
+    environment:
+      POSTGRES_USER: rbr
+      POSTGRES_PASSWORD: rbr
+      POSTGRES_DB: rbr
+    ports:
+      - "5432:5432"
+    volumes:
+      - rbr_pgdata:/var/lib/postgresql/data
+      - ./infra/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rbr -d rbr"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  rbr_pgdata:
