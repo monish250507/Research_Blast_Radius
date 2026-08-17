@@ -17,6 +17,28 @@ PaperBlast is fully deployed and accessible live on Vercel Production:
 
 ---
 
+## 🧪 Try It Yourself Guide (Quick Demo Benchmark)
+
+Test **PaperBlast** live using the benchmark OpenAI CLIP repository and paper PDF included in this repository:
+
+### 1. Benchmark Demo Test Credentials:
+- **GitHub Repository URL**: `https://github.com/openai/CLIP`
+- **Research Paper PDF**: Download **[`cli_compressed.pdf`](cli_compressed.pdf)** from this repository.
+
+### 2. Step-by-Step Test Instructions:
+1. Open **[https://paperblast.vercel.app](https://paperblast.vercel.app)**.
+2. **Step 1 (Code Repository Input)**: Paste `https://github.com/openai/CLIP` into the GitHub URL box and click **Ingest Repo**.
+3. **Step 2 (Paper Manuscript Input)**: Click **Upload PDF/Docx** and select the downloaded **[`cli_compressed.pdf`](cli_compressed.pdf)** file.
+4. **Step 3 (Parameter Mutation Query)**: Paste any parameter change query, for example:
+   > *"What happens if I modify the Vision Transformer patch size or logit scale temperature parameter in clip.py?"*
+5. Click **Calculate Blast Radius** and explore:
+   - **Manuscript Section Impact Matrix**: Flags affected paper sections with risk ratings.
+   - **Proposed Side-by-Side LaTeX Revisions**: Inspect and copy revised paper text.
+   - **Bipartite Lineage Graph**: Visualizes reachability nodes from `clip.py` line-level AST symbols to paper sections.
+   - **Agent Trace Log**: Inspect state collaboration across all 3 AI agents.
+
+---
+
 ## 🏆 Hackathon Judging Alignment Matrix
 
 | Judging Criteria | Weight | How PaperBlast Satisfies It |
@@ -55,6 +77,7 @@ Research_Blast_Radius/
 │   ├── paperParser.js             # PDF / DOCX / LaTeX structural document parser
 │   ├── impactEngine.js            # Multi-Agent reasoning, risk scoring & graph reachability
 │   └── groqClient.js              # Hardware-accelerated Groq LPU inference client
+├── cli_compressed.pdf             # OpenAI CLIP Research Paper PDF benchmark document
 ├── vercel.json                    # Vercel deployment configuration & serverless rewrites
 ├── package.json                   # Dependencies, build & dev scripts
 ├── postcss.config.js              # PostCSS configuration for Tailwind CSS v4
