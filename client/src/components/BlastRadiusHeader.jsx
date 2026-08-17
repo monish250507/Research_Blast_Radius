@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function BlastRadiusHeader({ analysis, hasCode, hasPaper, isIngesting, isAnalyzing, onExportReport }) {
+export default function BlastRadiusHeader({ analysis, hasCode, hasPaper, isIngesting, isParsingPaper, isAnalyzing, onExportReport }) {
   const score = analysis?.overall_impact_score ?? 0;
   const risk = analysis?.risk_level || 'NONE';
   const confidence = analysis?.confidence_score ?? 0;
@@ -16,6 +16,13 @@ export default function BlastRadiusHeader({ analysis, hasCode, hasPaper, isInges
       case 'MINOR': return 'badge-minor';
       default: return 'badge-none';
     }
+  };
+
+  const getStatusText = () => {
+    if (isIngesting) return 'Ingesting Repository Source Code...';
+    if (isParsingPaper) return 'Parsing Research Paper Document...';
+    if (isAnalyzing) return 'Calculating Blast Radius Across 3 Agents...';
+    return 'Awaiting Data Input to Begin Multi-Agent Analysis';
   };
 
   return (
@@ -68,7 +75,7 @@ export default function BlastRadiusHeader({ analysis, hasCode, hasPaper, isInges
                 </div>
               </div>
 
-              {/* Confidence & Cost Audit */}
+              {/* Confidence */}
               <div className="flex flex-col items-center border-r-2 border-black pr-5">
                 <span className="text-slate-700 font-bold uppercase text-[10px] tracking-wider">Confidence Rating</span>
                 <span className="text-black font-extrabold text-sm mt-0.5">{confidence}%</span>
@@ -109,7 +116,7 @@ export default function BlastRadiusHeader({ analysis, hasCode, hasPaper, isInges
           </div>
         ) : (
           <div className="text-xs font-mono font-bold text-black bg-white border-2 border-black px-4 py-1.5 rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-center">
-            {isIngesting ? 'Ingesting Code & Document...' : isAnalyzing ? 'Calculating Blast Radius Across 3 Agents...' : 'Awaiting Data Input to Begin Multi-Agent Analysis'}
+            {getStatusText()}
           </div>
         )}
       </div>

@@ -5,6 +5,30 @@ import CodeGraphViewer from './components/CodeGraphViewer';
 import PaperImpactViewer from './components/PaperImpactViewer';
 import DependencyFlow from './components/DependencyFlow';
 
+/**
+ * Robust JSON response handler. Handles Vercel 413 Request Entity Too Large HTML responses safely.
+ */
+async function safeFetchJson(url, options) {
+  const res = await fetch(url, options);
+  const text = await res.text();
+  let data = {};
+
+  try {
+    data = JSON.parse(text);
+  } catch (e) {
+    if (res.status === 413 || text.includes('Request Entity Too Large')) {
+      throw new Error('PDF document payload exceeds Vercel 4.5MB limit. Please select a smaller PDF file or paste the text excerpt.');
+    }
+    throw new Error(text.slice(0, 100) || `Server returned HTTP ${res.status}`);
+  }
+
+  if (!res.ok) {
+    throw new Error(data.error || `Request failed with HTTP ${res.status}`);
+  }
+
+  return data;
+}
+
 export default function App() {
   // Start with completely blank empty state (0 prefilled mock data)
   const [repoUrl, setRepoUrl] = useState('');
@@ -17,7 +41,9 @@ export default function App() {
   const [paperAST, setPaperAST] = useState({ sections: [], equations: [], tables: [], numbers: [] });
   const [analysis, setAnalysis] = useState(null);
 
-  const [isIngesting, setIsIngesting] = useState(false);
+  // Distinct independent loading states
+  const [isIngestingCode, setIsIngestingCode] = useState(false);
+  const [isParsingPaper, setIsParsingPaper] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -26,16 +52,14 @@ export default function App() {
   // Ingest GitHub Repository
   const handleIngestRepo = async () => {
     if (!repoUrl.trim()) return;
-    setIsIngesting(true);
+    setIsIngestingCode(true);
     setErrorMsg('');
     try {
-      const res = await fetch('/api/ingest-github', {
+      const data = await safeFetchJson('/api/ingest-github', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ repoUrl })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to ingest repository');
 
       setCodeSymbols(data.symbols || []);
       setIngestedFilesCount(data.fileCount || 1);
@@ -43,7 +67,7 @@ export default function App() {
       console.error('Repo ingestion error:', err);
       setErrorMsg(err.message);
     } finally {
-      setIsIngesting(false);
+      setIsIngestingCode(false);
     }
   };
 
@@ -52,7 +76,7 @@ export default function App() {
     const files = Array.from(e.target.files);
     if (!files.length) return;
 
-    setIsIngesting(true);
+    setIsIngestingCode(true);
     setErrorMsg('');
 
     try {
@@ -65,13 +89,11 @@ export default function App() {
         }))
       );
 
-      const res = await fetch('/api/ingest-github', {
+      const data = await safeFetchJson('/api/ingest-github', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ codeFiles })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to parse code files');
 
       setCodeSymbols(data.symbols || []);
       setIngestedFilesCount(codeFiles.length);
@@ -79,30 +101,28 @@ export default function App() {
       console.error('Code file upload error:', err);
       setErrorMsg(err.message);
     } finally {
-      setIsIngesting(false);
+      setIsIngestingCode(false);
     }
   };
 
   // Parse Raw Paper Text Excerpt
   const handleParsePaper = async () => {
     if (!paperText.trim()) return;
-    setIsIngesting(true);
+    setIsParsingPaper(true);
     setErrorMsg('');
     try {
-      const res = await fetch('/api/parse-paper', {
+      const data = await safeFetchJson('/api/parse-paper', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ paperText })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to parse paper manuscript');
 
       setPaperAST(data.paperAST || { sections: [], equations: [], tables: [], numbers: [] });
     } catch (err) {
       console.error('Paper text parse error:', err);
       setErrorMsg(err.message);
     } finally {
-      setIsIngesting(false);
+      setIsParsingPaper(false);
     }
   };
 
@@ -112,7 +132,7 @@ export default function App() {
     if (!file) return;
 
     setSelectedFileName(file.name);
-    setIsIngesting(true);
+    setIsParsingPaper(true);
     setErrorMsg('');
 
     try {
@@ -123,7 +143,7 @@ export default function App() {
         const base64Data = reader.result.split(',')[1] || reader.result;
 
         try {
-          const res = await fetch('/api/parse-paper', {
+          const data = await safeFetchJson('/api/parse-paper', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -131,28 +151,26 @@ export default function App() {
               fileType: ext
             })
           });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error || 'Failed to parse uploaded document');
 
           setPaperAST(data.paperAST || { sections: [], equations: [], tables: [], numbers: [] });
         } catch (err) {
           console.error('Document parse error:', err);
           setErrorMsg(err.message);
         } finally {
-          setIsIngesting(false);
+          setIsParsingPaper(false);
         }
       };
 
       reader.onerror = () => {
         setErrorMsg('Failed to read document file.');
-        setIsIngesting(false);
+        setIsParsingPaper(false);
       };
 
       reader.readAsDataURL(file);
     } catch (err) {
       console.error('File reader error:', err);
       setErrorMsg(err.message);
-      setIsIngesting(false);
+      setIsParsingPaper(false);
     }
   };
 
@@ -162,7 +180,7 @@ export default function App() {
     setIsAnalyzing(true);
     setErrorMsg('');
     try {
-      const res = await fetch('/api/analyze-impact', {
+      const data = await safeFetchJson('/api/analyze-impact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -171,8 +189,6 @@ export default function App() {
           query
         })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to calculate blast radius');
 
       setAnalysis(data.analysis || null);
     } catch (err) {
@@ -213,7 +229,8 @@ export default function App() {
           analysis={analysis}
           hasCode={codeSymbols.length > 0}
           hasPaper={paperAST.sections.length > 0}
-          isIngesting={isIngesting}
+          isIngesting={isIngestingCode}
+          isParsingPaper={isParsingPaper}
           isAnalyzing={isAnalyzing}
           onExportReport={handleExportReport}
         />
@@ -241,7 +258,8 @@ export default function App() {
             paperText={paperText}
             setPaperText={setPaperText}
             onParsePaper={handleParsePaper}
-            isIngesting={isIngesting}
+            isIngesting={isIngestingCode}
+            isParsingPaper={isParsingPaper}
             isAnalyzing={isAnalyzing}
             ingestedFilesCount={ingestedFilesCount}
             symbolsCount={codeSymbols.length}

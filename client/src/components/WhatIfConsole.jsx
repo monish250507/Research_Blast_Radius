@@ -13,6 +13,7 @@ export default function WhatIfConsole({
   setPaperText,
   onParsePaper,
   isIngesting,
+  isParsingPaper,
   isAnalyzing,
   ingestedFilesCount,
   symbolsCount,
@@ -105,16 +106,16 @@ export default function WhatIfConsole({
               <button
                 className="neo-btn h-12 whitespace-nowrap"
                 onClick={onParsePaper}
-                disabled={isIngesting || !paperText.trim()}
+                disabled={isParsingPaper || !paperText.trim()}
               >
-                Parse Text
+                {isParsingPaper ? 'Parsing...' : 'Parse Text'}
               </button>
             </div>
 
             <div className="flex items-center justify-between text-[11px] font-mono font-bold text-slate-700 pt-1 w-full">
               <span>Upload Document (.pdf, .docx, .tex):</span>
               <label className="neo-btn-white py-1 px-2.5 cursor-pointer whitespace-nowrap">
-                {selectedFileName ? selectedFileName : 'Upload PDF/Docx'}
+                {isParsingPaper ? 'Parsing PDF...' : selectedFileName ? selectedFileName : 'Upload PDF/Docx'}
                 <input
                   type="file"
                   accept=".pdf,.docx,.tex,.txt"
