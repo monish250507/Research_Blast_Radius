@@ -10,7 +10,7 @@ export default function CodeGraphViewer({ symbols }) {
   }
 
   return (
-    <div className="space-y-4 w-full overflow-hidden">
+    <div className="space-y-4 w-full overflow-hidden h-fit">
       <div className="flex flex-col items-start border-b-2 border-black pb-2 gap-0.5">
         <div className="flex items-center justify-between w-full">
           <h3 className="text-xs font-extrabold text-black uppercase tracking-wider font-mono">
@@ -23,7 +23,7 @@ export default function CodeGraphViewer({ symbols }) {
         </p>
       </div>
 
-      <div className="space-y-2.5 max-h-96 overflow-y-auto pr-1 w-full">
+      <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1 w-full">
         {symbols.map((sym, idx) => (
           <div
             key={idx}

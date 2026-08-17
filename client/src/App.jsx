@@ -311,14 +311,14 @@ export default function App() {
                 )}
 
                 {/* Split Screen Grid: Code AST (Left) vs Paper Matrix (Right) */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
-                  {/* Left: Code AST Symbols */}
-                  <div className="lg:col-span-4 neo-box p-5">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full items-start">
+                  {/* Left: Code AST Symbols (auto height fit) */}
+                  <div className="lg:col-span-4 neo-box p-5 self-start h-fit">
                     <CodeGraphViewer symbols={codeSymbols} />
                   </div>
 
                   {/* Right: Paper Impact Matrix */}
-                  <div className="lg:col-span-8 neo-box p-5">
+                  <div className="lg:col-span-8 neo-box p-5 self-start">
                     <PaperImpactViewer paperAST={paperAST} analysis={analysis} />
                   </div>
                 </div>
