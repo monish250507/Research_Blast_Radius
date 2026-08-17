@@ -48,7 +48,7 @@ export default function WhatIfConsole({
               <input
                 type="text"
                 className="neo-input flex-1"
-                placeholder="Paste GitHub Repository URL..."
+                placeholder="Paste GitHub Repository URL (e.g. https://github.com/openai/CLIP)..."
                 value={repoUrl}
                 onChange={(e) => setRepoUrl(e.target.value)}
               />
@@ -143,7 +143,7 @@ export default function WhatIfConsole({
         <div className="space-y-3 w-full pt-1">
           <textarea
             className="neo-input h-16 resize-none leading-relaxed w-full text-center"
-            placeholder="e.g. What happens if I change the LoRA rank r from 4 to 8 while keeping parameter budget constant?"
+            placeholder="What happens if I change the temperature scaling parameter tau from 0.07 to 0.01 in the contrastive loss?"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />

@@ -29,8 +29,8 @@ Test **PaperBlast** live using the benchmark OpenAI CLIP repository and paper PD
 1. Open **[https://paperblast.vercel.app](https://paperblast.vercel.app)**.
 2. **Step 1 (Code Repository Input)**: Paste `https://github.com/openai/CLIP` into the GitHub URL box and click **Ingest Repo**.
 3. **Step 2 (Paper Manuscript Input)**: Click **Upload PDF/Docx** and select the downloaded **[`cli_compressed.pdf`](cli_compressed.pdf)** file.
-4. **Step 3 (Parameter Mutation Query)**: Paste any parameter change query, for example:
-   > *"What happens if I modify the Vision Transformer patch size or logit scale temperature parameter in clip.py?"*
+4. **Step 3 (Parameter Mutation Query)**: Enter this exact change query:
+   > *"What happens if I change the temperature scaling parameter tau from 0.07 to 0.01 in the contrastive loss?"*
 5. Click **Calculate Blast Radius** and explore:
    - **Manuscript Section Impact Matrix**: Flags affected paper sections with risk ratings.
    - **Proposed Side-by-Side LaTeX Revisions**: Inspect and copy revised paper text.
@@ -194,7 +194,7 @@ sequenceDiagram
    - The Manuscript Analyst Agent extracts structural sections, line ranges, and mathematical equations.
 
 3. **Step 3: What-If Change Evaluation**:
-   - Enter a proposed parameter change (e.g., *"What happens if I change the LoRA rank r from 4 to 8 while keeping parameter budget constant?"*).
+   - Enter a proposed parameter change (e.g., *"What happens if I change the temperature scaling parameter tau from 0.07 to 0.01 in the contrastive loss?"*).
    - Click **Calculate Blast Radius**.
 
 4. **Step 4: Real-Time Blast Radius Calculation**:
@@ -265,7 +265,7 @@ sequenceDiagram
 ```json
 {
   "timestamp": "2026-08-17T22:35:14.000Z",
-  "query": "What happens if I change LoRA rank r from 4 to 8?",
+  "query": "What happens if I change the temperature scaling parameter tau from 0.07 to 0.01 in the contrastive loss?",
   "symbolsIndexedCount": 1156,
   "sectionsCount": 7,
   "blastRadiusAnalysis": {
@@ -281,7 +281,7 @@ sequenceDiagram
         "section_id": "sec-3-methodology",
         "title": "Methodology",
         "risk": "HIGH",
-        "reason": "Parameter mutation alters trainable weight matrix rank formulation in Section 3."
+        "reason": "Parameter mutation alters temperature scaling hyperparameter tau in Section 3."
       }
     ],
     "agent_collaboration_trace": [
