@@ -19,18 +19,18 @@ PaperBlast is fully deployed and accessible live on Vercel Production:
 
 ## 🌍 The Real-World Problem
 
-In modern machine learning, AI research, and computational sciences, **source code implementations and paper manuscripts rapidly desynchronize**.
+In machine learning and AI research, **source code implementations and paper manuscripts rapidly desynchronize**.
 
 When researchers refine code prior to publication or during peer review:
-1. **Silent Paper Invalidation**: A developer alters a hyperparameter (e.g., changing LoRA rank $r$ from 4 to 8, modifying FlashAttention block sizes, or adjusting weight decay schedules), but forgets that Section 3 ("Methodology") specifically claims an exact trainable parameter budget derived from $r=4$.
-2. **Mathematical Contradictions**: Modifying a function signature or tensor shape in PyTorch/JS code silently breaks mathematical formulations and equations defined in Section 4 ("Theoretical Bounds").
+1. **Silent Paper Invalidation**: A developer alters a hyperparameter (e.g., changing LoRA rank $r$ from 4 to 8, adjusting learning rates, or altering temperature parameters), but forgets that Section 3 ("Methodology") claims a specific parameter budget derived from $r=4$.
+2. **Mathematical & Section Discrepancies**: Modifying a function signature or variable in Python/JS code silently invalidates mathematical formulations defined in Section 4 ("Theoretical Bounds").
 3. **Reproducibility Failure**: External researchers attempting to reproduce paper results encounter discrepancies because the published codebase does not match the manuscript's claims.
-4. **Hours of Manual Proofreading**: Reviewing a 15-page paper against 5,000 lines of code after every minor parameter tweak takes hours of painstaking, error-prone manual verification.
+4. **Hours of Manual Proofreading**: Reviewing paper text against thousands of lines of code after every parameter tweak requires hours of error-prone manual verification.
 
 ### How PaperBlast Solves It
 **PaperBlast** automates paper-code synchronization by constructing a real-time **Bipartite Program AST & Manuscript Reachability Graph** $G = (V_{\text{code}} \cup V_{\text{paper}}, E_{\text{deps}})$. 
 
-Given any proposed code mutation or parameter change query, PaperBlast instantly calculates the **Blast Radius**, flags affected manuscript sections with risk ratings (**CRITICAL**, **HIGH**, **MAJOR**, **MINOR**), and synthesizes side-by-side proposed LaTeX revisions.
+Given any proposed code mutation or parameter change query, PaperBlast calculates the **Blast Radius**, flags affected manuscript sections with risk ratings (**CRITICAL**, **HIGH**, **MAJOR**, **MINOR**), and synthesizes side-by-side proposed LaTeX revisions.
 
 ---
 
@@ -78,20 +78,20 @@ sequenceDiagram
     A3-->>User: Output: Side-by-Side LaTeX Diffs & Auditable JSON Report
 ```
 
-### Agent Roles & Responsibilities:
+### Agent Roles & Implementation Details:
 
 1. **Code AST Dependency Agent (`codeParser.js`)**:
-   - Performs real-time shallow git cloning (`git clone --depth 1 --filter=blob:none`) to bypass GitHub API rate limits.
-   - Extracts Abstract Syntax Tree (AST) symbols, functions, variables, hyperparameters, and line-level file anchors.
+   - Performs real-time shallow git cloning (`git clone --depth 1 --filter=blob:none`) into isolated `/tmp` workspace storage to bypass GitHub API rate limits.
+   - Parses Abstract Syntax Tree (AST) symbols, functions, variables, hyperparameters, and line-level file anchors across Python (`.py`), JavaScript/TypeScript (`.js`, `.ts`), and `.json` source files.
 
 2. **Manuscript Impact Analyst Agent (`paperParser.js`)**:
-   - Parses LaTeX, PDF, DOCX, and plain text files.
+   - Parses LaTeX (`.tex`), PDF (`.pdf` via `pdf-parse`), DOCX (`.docx` via `mammoth`), and plain text files.
    - Extracts section hierarchies (`\section{}`, `\subsection{}`), LaTeX equations (`\begin{equation}`), tables, and numerical claims into a structured Document AST.
 
 3. **Skeptic Verification Arbiter Agent (`impactEngine.js`)**:
    - Cross-references proposed code mutations against indexed AST symbols and paper sections.
    - Evaluates overall impact score ($0-100\%$) and risk levels (**CRITICAL**, **HIGH**, **MAJOR**, **MINOR**).
-   - Enforces complete sentence boundaries and executes deterministic graph fallbacks to guarantee zero hallucinations.
+   - Reconciles section ID keys against `paperAST.sections`, enforces full sentence boundaries, and executes deterministic local AST reachability fallbacks to guarantee zero hallucinations.
 
 ---
 
@@ -121,9 +121,9 @@ graph TD
 ```
 
 ### Graph Formulation Details:
-- **Code AST Nodes ($V_{\text{code}}$)**: Variables, hyperparameter definitions, function signatures, class declarations, and line-level file anchors extracted from Python, JavaScript, and C++ files.
-- **Paper AST Nodes ($V_{\text{paper}}$)**: Structural section headings (`\section{}`), LaTeX equations (`\begin{equation}`), table environments, and numerical claims.
-- **Dependency Edges ($E_{\text{deps}}$)**: Directed reachability edges derived from program symbol references, mathematical variable equivalence, and parameter dependency propagation.
+- **Code AST Nodes ($V_{\text{code}}$)**: Variables, hyperparameter definitions, function signatures, class declarations, and line-level file anchors extracted from Python, JavaScript/TypeScript, and JSON files.
+- **Paper AST Nodes ($V_{\text{paper}}$)**: Structural section headings, LaTeX equations, table environments, and text snippets.
+- **Dependency Edges ($E_{\text{deps}}$)**: Directed reachability edges derived from program symbol references, mathematical variable equivalence, and query keyword matching.
 
 ---
 
@@ -138,7 +138,7 @@ graph TD
 ```
 
 1. **Step 1: Code AST Symbol Indexing**:
-   - Enter any public GitHub repository URL or upload local `.py`/`.js` code files.
+   - Enter any public GitHub repository URL or upload local code files (`.py`, `.js`, `.ts`).
    - The Code AST Agent indexes symbol names, types (`VARIABLE`, `FUNCTION`, `CLASS`), file paths, and line numbers.
 
 2. **Step 2: Manuscript Document Parsing**:
