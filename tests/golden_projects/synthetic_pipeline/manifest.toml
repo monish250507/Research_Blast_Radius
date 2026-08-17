@@ -1,7 +1,0 @@
-name = "synthetic_pipeline"
-language = "python"
-supported = true
-repo_dir = "repo"
-claims_file = "repo/claims.yaml"
-base_commit = "d32a15ab5958302f059846389f1dd1ada20e64f2"
-change_commit = "cc56d9d549b13912a80d5cfd3a10be6a7bb79c62"

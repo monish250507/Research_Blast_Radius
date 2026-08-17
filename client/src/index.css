@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #dbeafe; /* Soft ice blue background */
+  color: #0f172a;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+/* App Centered Wrapper */
+.app-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-center-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.grid-2col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #dbeafe;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 4px;
+}
+
+/* Neobrutalism Design System Tokens */
+.neo-box {
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 0px 0px #000000;
+  box-sizing: border-box;
+}
+
+.neo-box-blue {
+  background-color: #60a5fa;
+  color: #000000;
+  border: 2px solid #000000;
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.neo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.neo-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px #000000;
+  background-color: #2563eb;
+}
+
+.neo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px #000000;
+}
+
+.neo-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.neo-btn-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.neo-btn-white:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px #000000;
+  background-color: #f8fafc;
+}
+
+.neo-input {
+  width: 100%;
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  box-shadow: 2px 2px 0px 0px #000000;
+  box-sizing: border-box;
+}
+
+.neo-input:focus {
+  outline: none;
+  box-shadow: 3px 3px 0px 0px #000000;
+  border-color: #000000;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px 0px #000000;
+  color: #000000;
+}
+
+.badge-critical {
+  background-color: #f87171;
+}
+
+.badge-high {
+  background-color: #fbbf24;
+}
+
+.badge-major {
+  background-color: #fde047;
+}
+
+.badge-minor {
+  background-color: #7dd3fc;
+}
+
+.badge-none {
+  background-color: #e2e8f0;
+}
+
+/* Tab button styling */
+.neo-tab {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: #000000;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0.375rem;
+  box-shadow: 3px 3px 0px 0px #000000;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.neo-tab:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px #000000;
+  background-color: #f1f5f9;
+}
+
+.neo-tab-active {
+  background-color: #3b82f6;
+  color: #ffffff;
+  box-shadow: 3px 3px 0px 0px #000000;
+}

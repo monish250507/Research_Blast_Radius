@@ -1,8 +1,0 @@
-model:
-  learning_rate: 0.01
-  epochs: 50
-data:
-  raw: "data/raw.csv"
-  processed: "outputs/processed.csv"
-  results_dir: "results"
-seed: 42
