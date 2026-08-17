@@ -9,6 +9,16 @@
 
 ---
 
+## 🚀 Live Production Deployment
+
+PaperBlast is fully deployed and accessible live on Vercel Production:
+
+- **Primary Web Application**: **[https://paperblast.vercel.app](https://paperblast.vercel.app)**
+- **Backup Deployment URL**: **[https://testing-ochre-five.vercel.app](https://testing-ochre-five.vercel.app)**
+- **Serverless API Health Endpoint**: **[https://paperblast.vercel.app/api/health](https://paperblast.vercel.app/api/health)**
+
+---
+
 ## 🏆 Hackathon Judging Alignment Matrix
 
 | Judging Criteria | Weight | How PaperBlast Satisfies It |
