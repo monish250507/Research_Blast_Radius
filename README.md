@@ -4,16 +4,18 @@
 > *Built for the Research Agents Hack Sprint.*
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-paperblast.vercel.app-000000?style=for-the-badge&logo=vercel)](https://paperblast.vercel.app)
+[![YouTube Demo Video](https://img.shields.io/badge/YouTube-Video_Demo-FF0000?style=for-the-badge&logo=youtube)](https://youtu.be/iAgQBcwuMZU?si=WBNU0XGO803-UskE)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-monish250507%2FResearch__Blast__Radius-181717?style=for-the-badge&logo=github)](https://github.com/monish250507/Research_Blast_Radius)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
 ---
 
-## 🚀 Live Production Deployment
+## 🚀 Live Production Deployment & Video Demo
 
 PaperBlast is fully deployed and accessible live on Vercel Production:
 
 - **Live Web Application**: **[https://paperblast.vercel.app](https://paperblast.vercel.app)**
+- **YouTube Walkthrough Demo**: **[https://youtu.be/iAgQBcwuMZU](https://youtu.be/iAgQBcwuMZU?si=WBNU0XGO803-UskE)**
 
 ---
 
@@ -164,7 +166,7 @@ graph TD
 | :--- | :---: | :--- |
 | **Research Utility** | **30%** | Solves paper-code desynchronization by computing the exact **Blast Radius** of code mutations on manuscript text, math equations, and benchmarking tables before publication or reproduction. |
 | **Agent Collaboration** | **25%** | Features **3 specialized agents** (`Code AST Agent`, `Manuscript Analyst`, `Skeptic Verification Arbiter`) exchanging state through a formal bipartite graph with auditable state logs and error-recovery fallbacks. |
-| **Working Demo** | **20%** | 100% operational in real-time on arbitrary GitHub repositories and research PDFs. Live at **[https://paperblast.vercel.app](https://paperblast.vercel.app)**. |
+| **Working Demo** | **20%** | 100% operational in real-time on arbitrary GitHub repositories and research PDFs. Live at **[https://paperblast.vercel.app](https://paperblast.vercel.app)**. Video walkthrough: **[YouTube Demo](https://youtu.be/iAgQBcwuMZU)**. |
 | **Cost Efficiency** | **15%** | Token-capped prompts (< 1,500 tokens) running on hardware-accelerated Groq Temperature 0.0 LPUs ($0.00 estimated cost). |
 | **Originality** | **10%** | Goes far beyond generic research chatbots by implementing a mathematical bipartite reachability graph $\mathcal{G} = (V_{\text{code}} \cup V_{\text{paper}}, E_{\text{deps}})$ with 1-click downloadable JSON audit reports. |
 
