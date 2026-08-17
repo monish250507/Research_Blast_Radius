@@ -21,6 +21,41 @@
 
 ---
 
+## 📁 Repository Directory & File Architecture
+
+```text
+Research_Blast_Radius/
+├── api/
+│   └── index.js                   # Vercel Serverless Function entry point
+├── client/                        # React 18 Frontend Application
+│   ├── public/                    # Static web assets
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── BlastRadiusHeader.jsx # Header, risk metrics & multi-agent cost badges
+│   │   │   ├── WhatIfConsole.jsx     # Stepped inputs: Repo URL, PDF Upload, Query Launcher
+│   │   │   ├── CodeGraphViewer.jsx   # Indexed Code AST Symbol browser
+│   │   │   ├── PaperImpactViewer.jsx  # Manuscript Impact Matrix & Side-by-Side LaTeX Diffs
+│   │   │   └── DependencyFlow.jsx    # Bipartite Lineage Graph visualization
+│   │   ├── App.jsx                # Main Workspace container & safe API response handler
+│   │   ├── main.jsx               # React DOM entry point
+│   │   └── index.css              # Neobrutalism CSS tokens & Tailwind import
+│   ├── index.html                 # Main HTML template
+│   └── vite.config.js             # Vite configuration with @tailwindcss/vite plugin
+├── server/                        # Node.js Express Backend Engine
+│   ├── index.js                   # Express REST server API routes & temp storage handling
+│   ├── codeParser.js              # Shallow git clone & regex AST symbol extraction engine
+│   ├── paperParser.js             # PDF / DOCX / LaTeX structural document parser
+│   ├── impactEngine.js            # Multi-Agent reasoning, risk scoring & graph reachability
+│   └── groqClient.js              # Hardware-accelerated Groq LPU inference client
+├── vercel.json                    # Vercel deployment configuration & serverless rewrites
+├── package.json                   # Dependencies, build & dev scripts
+├── postcss.config.js              # PostCSS configuration for Tailwind CSS v4
+├── .gitignore                     # Git exclusion rules (node_modules, .env, dist)
+└── README.md                      # Technical documentation & Hackathon specification
+```
+
+---
+
 ## 🌍 The Real-World Problem
 
 In modern machine learning, AI research, and computational sciences, **source code implementations and paper manuscripts rapidly desynchronize**.
